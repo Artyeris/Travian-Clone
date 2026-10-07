@@ -23,8 +23,9 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-  const { username, password, password2, tribe, villageName } = req.body;
+  let { username, password, password2, tribe, villageName } = req.body;
   if (!username || !password) return res.render('auth/register', { error: 'All fields required.' });
+  username = String(username).trim();
   if (username.length < 3 || username.length > 16) return res.render('auth/register', { error: 'Username must be 3-16 characters.' });
   if (userModel.getUserByName(username)) return res.render('auth/register', { error: 'Username already taken.' });
   if (password !== password2) return res.render('auth/register', { error: 'Passwords do not match.' });

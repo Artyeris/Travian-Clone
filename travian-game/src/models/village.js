@@ -51,6 +51,7 @@ function getUserVillages(userId) {
 
 function setVillage(id, fields) {
   const keys = Object.keys(fields);
+  if (keys.length === 0) return; // nothing to update
   const sets = keys.map(k => `${k} = ?`).join(', ');
   db.prepare(`UPDATE villages SET ${sets} WHERE id = ?`).run(...keys.map(k => fields[k]), id);
 }

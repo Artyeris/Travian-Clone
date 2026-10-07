@@ -1,7 +1,4 @@
 # Database files
-travian-game/data/*.sqlite
-travian-game/data/*.sqlite-shm
-travian-game/data/*.sqlite-wal
-
-# Logs
-*.log
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
