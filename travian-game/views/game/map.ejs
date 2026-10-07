@@ -1,0 +1,17 @@
+<%- include('../partials/header') %>
+<h2>World map</h2>
+<div class="map-toolbar">
+  <span>Zoom: <input id="zoom" type="range" min="6" max="30" value="16"></span>
+  <span>Go to (<input id="gox" type="number" value="<%= v.x %>" style="width:64px">|<input id="goy" type="number" value="<%= v.y %>" style="width:64px">)
+    <button class="btn btn-small" id="goBtn">Jump</button></span>
+  <span class="muted small">Drag to pan · scroll to zoom · click a village for options</span>
+</div>
+<div id="mapwrap">
+  <canvas id="worldmap" width="800" height="600"></canvas>
+  <div id="maptip" class="hidden"></div>
+</div>
+<script>
+  window.MAP_CFG = { homeVillageId: <%= v.id %>, startX: <%= v.x %>, startY: <%= v.y %>, mapW: <%= mapW %>, mapH: <%= mapH %>, dataUrl: '/game/map/data/<%= v.id %>' };
+</script>
+<script src="/js/map.js"></script>
+<%- include('../partials/footer') %>

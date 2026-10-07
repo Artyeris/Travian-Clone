@@ -1,0 +1,19 @@
+<%- include('partials/header', { title: 'Travian Universe' }) %>
+<section class="hero">
+  <h1>TRAVIAN UNIVERSE</h1>
+  <p class="tagline">Build villages. Train legions. Conquer Europe.</p>
+  <div class="worldstats"><%= stats.players %> players &middot; <%= stats.villages %> villages settled</div>
+  <div class="hero-actions">
+    <a class="btn btn-gold" href="/register">Start your empire</a>
+    <a class="btn" href="/login">Login</a>
+  </div>
+</section>
+<section class="features">
+  <div class="feature"><h3>🏛 Build</h3><p>20+ classic buildings — Main Building, Warehouse, Granary, Blacksmith, Barracks, Stable, Workshop, Embassy, Monument, City Wall, Academy and resource fields with authentic exponential cost curves.</p></div>
+  <div class="feature"><h3>⚔️ Conquer</h3><p>Train Legionnaires, Praetorians, Imperians, cavalry, rams and catapults. Raid for loot, break walls, settle new provinces and fight real players on a 400×400 tile world map.</p></div>
+  <div class="feature"><h3>🤝 Ally</h3><p>Create alliances, send messages, trade caravans between villages, research technologies in the Academy and level up your Hero.</p></div>
+</section>
+<div class="cta-bottom">
+  <a class="btn btn-gold btn-big" href="/register">Create account — it's free</a>
+</div>
+<%- include('partials/footer') %>

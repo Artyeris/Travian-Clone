@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+<h2>Alliances</h2>
+<% if (my) { %>
+  <div class="panel">
+    <h3>Your alliance: [<%= my.tag %>] <%= my.name %></h3>
+    <table class="table striped">
+      <tr><th>Member</th><th>Role</th><th>Joined</th></tr>
+      <% members.forEach(m => { %><tr><td><%= m.username %></td><td><%= m.role %></td><td><%= new Date(m.joined).toLocaleDateString() %></td></tr><% }) %>
+    </table>
+    <form method="post" action="/game/alliance/leave"><button class="btn" type="submit">Leave alliance</button></form>
+  </div>
+<% } else { %>
+  <div class="panel">
+    <h3>Create an alliance</h3>
+    <form method="post" action="/game/alliance/create">
+      <label>Tag <input type="text" name="tag" maxlength="8" required placeholder="ROM"></label>
+      <label>Name <input type="text" name="name" maxlength="30" required placeholder="Empire of Rome"></label>
+      <button class="btn btn-gold" type="submit">Create</button>
+    </form>
+  </div>
+<% } %>
+<h3>All alliances</h3>
+<table class="table striped">
+  <tr><th>Tag</th><th>Name</th><th>Members</th><th>Points</th><th></th></tr>
+  <% all.forEach(a => { %>
+  <tr>
+    <td><b>[<%= a.tag %>]</b></td><td><%= a.name %></td><td><%= a.members_count %></td><td><%= a.points || 0 %></td>
+    <td><% if (!my) { %><form method="post" action="/game/alliance/join">
+      <input type="hidden" name="alliance_id" value="<%= a.id %>">
+      <button class="btn btn-small btn-gold" type="submit">Join</button></form><% } %></td>
+  </tr>
+  <% }) %>
+  <% if (!all.length) { %><tr><td colspan="5" class="muted">No alliances yet — found the first one!</td></tr><% } %>
+</table>
+<%- include('../partials/footer') %>

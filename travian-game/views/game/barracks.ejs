@@ -1,0 +1,64 @@
+<%- include('../partials/header') %>
+<h2><%= defByName[bKey].name %> — <%= v.name %></h2>
+<p class="muted">Building level: <b><%= level %></b> &middot; Free housing: <b><%= freePop %></b> inhabitants</p>
+<% if (level < 1) { %>
+  <div class="flash flash-error">This building does not exist yet in your village. Build it first on the <a href="/game/village/<%= v.id %>">village screen</a>.</div>
+<% } else { %>
+
+<div class="cols">
+  <div class="col-main">
+    <table class="table striped units-table">
+      <tr><th>Unit</th><th>Cost</th><th>Train time</th><th>Attack/Defence</th><th>Speed</th><th>Carry</th><th>Have</th><th>Train</th></tr>
+      <% availableKeys.forEach(k => { const u = unitDefs[k]; const t = trainTime(k);
+         const locked = u.requires && Object.entries(u.requires).some(([rk,rl]) => V_buildingLevel(v.id, rk) < rl);
+         const reqText = u.requires ? Object.entries(u.requires).map(([rk,rl])=>`${(defByName[rk]||{name:rk}).name} lvl ${rl}`).join(', ') : '';
+      %>
+      <tr class="<%= locked ? 'locked' : '' %>">
+        <td><b><%= u.name %></b><br><span class="muted small"><%= u.desc %></span>
+          <% if (locked) { %><br><span class="warn small">🔒 Requires <%= reqText %></span><% } %></td>
+        <td class="cost">🪵<%= u.cost.wood %> 🧱<%= u.cost.clay %> ⚙️<%= u.cost.iron %></td>
+        <td><span class="dur" data-ms="<%= t %>"></span>/unit</td>
+        <td><%= u.attack %> / <%= u.defence %></td>
+        <td><%= u.speed %></td>
+        <td><%= u.carry %></td>
+        <td class="have"><%= troops[k] || 0 %></td>
+        <td>
+          <form method="post" action="/game/barracks/<%= v.id %>/<%= bKey %>/train" class="trainform">
+            <input type="hidden" name="unit" value="<%= k %>">
+            <input type="number" name="amount" min="1" max="999" value="1" style="width:64px">
+            <button class="btn btn-small btn-gold" type="submit" <%= locked ? 'disabled' : '' %>>Train</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </table>
+
+    <h3>Training queue</h3>
+    <% if (!queue.length) { %><p class="muted">Nothing is being trained.</p><% } else { %>
+    <table class="table striped">
+      <tr><th>Unit</th><th>Amount</th><th>Finishes</th></tr>
+      <% queue.forEach(q => { %>
+      <tr><td><%= unitDefs[q.unit_key].name %></td><td><%= q.amount %></td>
+        <td><span class="countdown" data-target="<%= q.finish_time %>"></span></td></tr>
+      <% }) %>
+    </table>
+    <% } %>
+  </div>
+  <div class="col-side">
+    <div class="sidebox"><h3>Switch training building</h3>
+      <ul>
+        <li><a href="/game/barracks/<%= v.id %>/barracks">Barracks</a></li>
+        <li><a href="/game/barracks/<%= v.id %>/stable">Stable</a></li>
+        <li><a href="/game/barracks/<%= v.id %>/workshop">Workshop</a></li>
+      </ul>
+    </div>
+    <div class="sidebox"><h3>Garrison</h3>
+      <% const g = Object.entries(troops).filter(([,n])=>n>0); %>
+      <% if (!g.length) { %><p class="muted">Empty.</p><% } else { %>
+      <ul><% g.forEach(([k,n]) => { %><li><%= n %> × <%= unitDefs[k] ? unitDefs[k].name : k %></li><% }) %></ul>
+      <% } %>
+    </div>
+  </div>
+</div>
+<% } %>
+<%- include('../partials/footer') %>

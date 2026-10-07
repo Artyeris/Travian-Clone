@@ -1,0 +1,20 @@
+<%- include('../partials/header', { title: 'Register' }) %>
+<div class="formpanel">
+  <h2>Create your account</h2>
+  <% if (error) { %><div class="flash flash-error"><%= error %></div><% } %>
+  <form method="post" action="/register">
+    <label>Username (3–16 chars) <input type="text" name="username" required minlength="3" maxlength="16" autofocus></label>
+    <label>Village name <input type="text" name="villageName" maxlength="20" placeholder="e.g. Nova Roma"></label>
+    <fieldset class="tribes">
+      <legend>Choose your tribe</legend>
+      <label class="tribe"><input type="radio" name="tribe" value="roman" checked> 🏛 <b>Romans</b><span>Balanced, strong defensive infantry &amp; fast settlers.</span></label>
+      <label class="tribe"><input type="radio" name="tribe" value="teuton"> ⚒ <b>Teutons</b><span>Aggressive raiders with cheap early troops.</span></label>
+      <label class="tribe"><input type="radio" name="tribe" value="gallic"> 🌳 <b>Gauls</b><span>Excellent defenders and swift scouts.</span></label>
+    </fieldset>
+    <label>Password <input type="password" name="password" required minlength="5"></label>
+    <label>Repeat password <input type="password" name="password2" required minlength="5"></label>
+    <button class="btn btn-gold" type="submit">Found your capital</button>
+  </form>
+  <p class="form-alt">Already playing? <a href="/login">Login</a>.</p>
+</div>
+<%- include('../partials/footer') %>

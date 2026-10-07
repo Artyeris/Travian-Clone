@@ -1,0 +1,20 @@
+Travian server running on http://localhost:3000
+ReferenceError: /workspace/travian-game/views/game/hero.ejs:8
+    6|       <div class="heroavatar">🦸</div>
+    7|       <div>
+ >> 8|         <p><b>Level <%= hero.level %></b> · XP <%= fmt(hero.exp) %>/<%= fmt(nextExp) %></p>
+    9|         <div class="xpbar"><div class="xpfill" style="width:<%= Math.min(100, Math.round(hero.exp / nextExp * 100)) %>%"></div></div>
+    10|         <p>HP: <%= hero.attrs.hp %>/<%= hero.attrs.maxhp %></p>
+    11|         <p>Location: village id <%= hero.village_id %></p>
+
+fmt is not defined
+    at eval ("/workspace/travian-game/views/game/hero.ejs":18:7)
+    at hero (/workspace/travian-game/node_modules/ejs/lib/ejs.js:703:17)
+    at tryHandleCache (/workspace/travian-game/node_modules/ejs/lib/ejs.js:274:36)
+    at exports.renderFile [as engine] (/workspace/travian-game/node_modules/ejs/lib/ejs.js:491:10)
+    at View.render (/workspace/travian-game/node_modules/express/lib/view.js:135:8)
+    at tryRender (/workspace/travian-game/node_modules/express/lib/application.js:657:10)
+    at Function.render (/workspace/travian-game/node_modules/express/lib/application.js:609:3)
+    at ServerResponse.render (/workspace/travian-game/node_modules/express/lib/response.js:1049:7)
+    at /workspace/travian-game/src/routes/hero.js:13:7
+    at Layer.handle [as handle_request] (/workspace/travian-game/node_modules/express/lib/router/layer.js:95:5)

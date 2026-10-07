@@ -1,0 +1,32 @@
+<%- include('../partials/header') %>
+<h2>Messages</h2>
+<div class="cols">
+  <div class="col-main">
+    <div class="panel">
+      <h3>Write a message</h3>
+      <form method="post" action="/game/messages/send">
+        <label>To <input type="text" name="to" required placeholder="username"></label>
+        <label>Subject <input type="text" name="subject" maxlength="80"></label>
+        <label>Message <textarea name="body" rows="5" required maxlength="2000"></textarea></label>
+        <button class="btn btn-gold" type="submit">Send</button>
+      </form>
+    </div>
+    <h3>Inbox</h3>
+    <% if (!inbox.length) { %><p class="muted">Inbox empty.</p><% } %>
+    <% inbox.forEach(m => { %>
+      <details class="report <%= m.read ? '' : 'unread' %>">
+        <summary><b><%= m.subject || '(no subject)' %></b> — from <%= m.from_name || 'System' %> <span class="muted"><%= new Date(m.time).toLocaleString() %></span></summary>
+        <div class="report-body"><p><%= m.body %></p>
+          <% if (!m.read) { %><form method="post" action="/game/messages/read/<%= m.id %>"><button class="btn btn-small" type="submit">Mark read</button></form><% } %>
+        </div>
+      </details>
+    <% }) %>
+  </div>
+  <div class="col-side">
+    <div class="sidebox"><h3>Sent</h3>
+      <% if (!outbox.length) { %><p class="muted">Nothing sent yet.</p><% } %>
+      <ul><% outbox.forEach(m => { %><li>→ <%= m.to_name %>: <%= m.subject || '(no subject)' %></li><% }) %></ul>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>

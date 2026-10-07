@@ -1,0 +1,11 @@
+# Dependencies
+node_modules/
+
+# Logs and Temp files
+*.log
+*.tmp
+
+# Database files (generated at runtime)
+data/*.sqlite
+data/*.sqlite-shm
+data/*.sqlite-wal

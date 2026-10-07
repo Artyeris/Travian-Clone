@@ -1,0 +1,10 @@
+<%- include('../partials/header') %>
+<h2>Statistics</h2>
+<table class="table striped">
+  <tr><th>#</th><th>Player</th><th>Tribe</th><th>Points</th></tr>
+  <% players.forEach((p, i) => { %>
+  <tr class="<%= user && user.id === p.id ? 'me' : '' %>"><td><%= i + 1 %></td><td><b><%= p.username %></b></td><td><%= p.tribe %></td><td><%= p.points %></td></tr>
+  <% }) %>
+  <% if (!players.length) { %><tr><td colspan="4" class="muted">No players yet.</td></tr><% } %>
+</table>
+<%- include('../partials/footer') %>

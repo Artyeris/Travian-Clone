@@ -1,0 +1,100 @@
+<%- include('../partials/header') %>
+<h2><%= v.name %> <span class="muted">(<%= v.x %>|<%= v.y %>)</span></h2>
+
+<div class="panel stats-panel">
+  <div class="stat"><span class="k">Production/h:</span>
+    🪵 <%= fmt(prod.wood) %> · 🧱 <%= fmt(prod.clay) %> · ⚙️ <%= fmt(prod.iron) %> · 🌾 <%= fmt(prod.grain) %>
+    <span class="muted">(grain consumption: -<%= cons.toFixed(1) %>/h)</span></div>
+  <div class="stat"><span class="k">Storage:</span> 🪵 <%= fmt(v.wood) %>/<%= fmt(cap) %> · 🧱 <%= fmt(v.clay) %>/<%= fmt(cap) %> · ⚙️ <%= fmt(v.iron) %>/<%= fmt(cap) %></div>
+  <div class="stat"><span class="k">Granary:</span> 🌾 <%= fmt(v.grain) %>/<%= fmt(gcap) %></div>
+  <div class="stat"><span class="k">Housing:</span> <%= (v.population + troopPop) %>/<%= housing %>
+    (villagers <%= v.population %>, troops <%= troopPop %>)</div>
+</div>
+
+<div class="cols">
+  <div class="col-main">
+    <h3>Buildings</h3>
+    <table class="table striped buildings-table">
+      <tr><th>Building</th><th>Level</th><th>Cost (next)</th><th>Time</th><th></th></tr>
+      <% buildings.forEach(b => { const def = defByName[b.key]; if (!def) return;
+         const cost = V_getCost(b.key, b.level);
+         const time = V_getBuildTime(b.key, b.level);
+         const maxed = b.level >= def.maxLevel;
+         const affordable = v.wood >= cost.wood && v.clay >= cost.clay && v.iron >= cost.iron;
+      %>
+      <tr>
+        <td><b><%= def.name %></b><br><span class="muted small"><%= def.desc %></span></td>
+        <td class="lvl"><%= b.level %><% if (maxed) { %>/<%= def.maxLevel %> <span class="tag tag-max">MAX</span><% } %></td>
+        <% if (b.upgrading) { %>
+          <td colspan="2">⏳ Upgrading to level <%= b.level + 1 %>, finishes in <span class="countdown" data-target="<%= b.upgrade_finish %>"></span></td>
+          <td></td>
+        <% } else if (maxed) { %>
+          <td colspan="2" class="muted">Maximum level reached.</td><td></td>
+        <% } else { %>
+          <td class="cost">🪵<%= fmt(cost.wood) %> 🧱<%= fmt(cost.clay) %> ⚙️<%= fmt(cost.iron) %></td>
+          <td><span class="dur" data-ms="<%= time %>"></span></td>
+          <td><form method="post" action="/game/village/<%= v.id %>/build/<%= b.key %>">
+            <button class="btn btn-small <%= affordable ? 'btn-gold' : 'btn-disabled' %>" type="submit" <%= affordable ? '' : 'disabled title="Not enough resources"' %>>Upgrade</button>
+          </form></td>
+        <% } %>
+      </tr>
+      <% }) %>
+    </table>
+
+    <h3>New construction</h3>
+    <% const fieldKeys = ['woodcutter','claypit','ironmine','grainfield','herbivore']; %>
+    <% if (!newCandidates.length) { %><p class="muted">All building types are present in this village.</p><% } else { %>
+    <table class="table striped">
+      <tr><th>Building</th><th>Cost</th><th>Time</th><th></th></tr>
+      <% newCandidates.forEach(def => {
+           const isField = fieldKeys.includes(def.key);
+           const blockedBySlots = isField && !canAddNewField;
+           const cost = V_getCost(def.key, 0);
+           const time = V_getBuildTime(def.key, 0);
+           const affordable = v.wood >= cost.wood && v.clay >= cost.clay && v.iron >= cost.iron;
+           let reqText = '';
+           if (def.requires) reqText = Object.entries(def.requires).map(([rk,rl])=>`Requires ${(defByName[rk]||{name:rk}).name} lvl ${rl}`).join(', ');
+      %>
+      <tr>
+        <td><b><%= def.name %></b><br><span class="muted small"><%= def.desc %></span>
+          <% if (reqText) { %><br><span class="warn small"><%= reqText %></span><% } %></td>
+        <td class="cost">🪵<%= fmt(cost.wood) %> 🧱<%= fmt(cost.clay) %> ⚙️<%= fmt(cost.iron) %></td>
+        <td><span class="dur" data-ms="<%= time %>"></span></td>
+        <td>
+          <% if (blockedBySlots) { %><span class="muted small">No free field slots</span>
+          <% } else { %>
+          <form method="post" action="/game/village/<%= v.id %>/newbuilding/<%= def.key %>">
+            <button class="btn btn-small <%= affordable && !reqText ? 'btn-gold' : 'btn-disabled' %>" type="submit"
+              <%= (affordable && !reqText) ? '' : 'disabled' %>>Build</button>
+          </form>
+          <% } %>
+        </td>
+      </tr>
+      <% }) %>
+    </table>
+    <% } %>
+  </div>
+
+  <div class="col-side">
+    <div class="sidebox"><h3>Actions</h3>
+      <ul>
+        <li><a href="/game/barracks/<%= v.id %>/barracks">Barracks (infantry)</a></li>
+        <li><a href="/game/barracks/<%= v.id %>/stable">Stable (cavalry)</a></li>
+        <li><a href="/game/barracks/<%= v.id %>/workshop">Workshop (siege)</a></li>
+        <li><a href="/game/research/<%= v.id %>">Academy</a></li>
+        <li><a href="/game/market/<%= v.id %>">Marketplace</a></li>
+        <li><a href="/game/attack/<%= v.id %>">Attack / Reinforce / Settle</a></li>
+        <li><a href="/game/hero/<%= v.id %>">Hero</a></li>
+        <li><a href="/game/map/<%= v.id %>">World map</a></li>
+      </ul>
+    </div>
+    <div class="sidebox"><h3>Garrison</h3>
+      <% const g = Object.entries(troopsHere).filter(([,n])=>n>0); %>
+      <% if (!g.length) { %><p class="muted">No troops in this village.</p><% } else { %>
+      <ul><% g.forEach(([k,n]) => { %><li><%= n %> × <%= k.replace('_',' ') %></li><% }) %></ul>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
