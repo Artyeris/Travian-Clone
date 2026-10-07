@@ -1,11 +1,7 @@
-# Dependencies
-node_modules/
+# Database files
+travian-game/data/*.sqlite
+travian-game/data/*.sqlite-shm
+travian-game/data/*.sqlite-wal
 
-# Logs and Temp files
+# Logs
 *.log
-*.tmp
-
-# Database files (generated at runtime)
-data/*.sqlite
-data/*.sqlite-shm
-data/*.sqlite-wal
