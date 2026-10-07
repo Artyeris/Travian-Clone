@@ -1,0 +1,67 @@
+<%# Shared Travian-style top navigation bar. Expects: user, currentVillages (may be []), activeNav, path %>
+<header id="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="<%= user ? '/game' : '/' %>"><span class="logo-r">R</span>oman&nbsp;Empire</a>
+    <% if (user) { %>
+      <nav class="mainnav">
+        <% const items = [
+             ['overview','Overview','/game/overview'],
+             ['village','Village', currentVillages.length ? '/game/village/' + currentVillages[0].id : '/game/overview'],
+             ['troops','Troops', currentVillages.length ? '/game/barracks/' + currentVillages[0].id + '/barracks' : '/game/overview'],
+             ['map','Map', currentVillages.length ? '/game/map/' + currentVillages[0].id : '/game/overview'],
+             ['attack','Attack', currentVillages.length ? '/game/attack/' + currentVillages[0].id : '/game/overview'],
+             ['market','Market', currentVillages.length ? '/game/market/' + currentVillages[0].id : '/game/overview'],
+             ['research','Research', currentVillages.length ? '/game/research/' + currentVillages[0].id : '/game/overview'],
+             ['hero','Hero', currentVillages.length ? '/game/hero/' + currentVillages[0].id : '/game/overview'],
+             ['alliance','Alliance','/game/alliance'],
+             ['messages','Messages','/game/messages'],
+             ['stats','Statistics','/game/statistics']
+           ]; %>
+        <% items.forEach(([key,label,href]) => { %>
+          <a class="nav-item <%= activeNav === key ? 'active' : '' %>" href="<%= href %>"><%= label %></a>
+        <% }) %>
+      </nav>
+      <div class="accountbox">
+        <span class="acc-name"><%= user.username %></span>
+        <a href="/logout">Logout</a>
+      </div>
+    <% } else { %>
+      <nav class="mainnav">
+        <a class="nav-item <%= path === '/' ? 'active' : '' %>" href="/">Home</a>
+        <a class="nav-item" href="/login">Login</a>
+        <a class="nav-item" href="/register">Register</a>
+        <a class="nav-item <%= path === '/game/statistics' ? 'active' : '' %>" href="/game/statistics">Statistics</a>
+      </nav>
+    <% } %>
+  </div>
+</header>
+<% if (user && currentVillages && currentVillages.length) { %>
+<div id="resourcebar">
+  <div class="resbar-inner">
+    <% if (currentVillages.length > 1) { %>
+      <form class="villageselect" method="get" action="/game/jump">
+        <select name="v" onchange="this.form.submit()">
+          <% currentVillages.forEach(cv => { %>
+            <option value="<%= cv.id %>" <%= (typeof v !== 'undefined' && v && v.id === cv.id) ? 'selected' : '' %>>
+              <%= cv.name %> (<%= cv.x %>|<%= cv.y %>)</option>
+          <% }) %>
+        </select>
+      </form>
+    <% } else { %>
+      <span class="village-name"><%= currentVillages[0].name %> (<%= currentVillages[0].x %>|<%= currentVillages[0].y %>)</span>
+    <% } %>
+    <% const rv = (typeof v !== 'undefined' && v) ? v : currentVillages[0]; %>
+    <span class="res res-wood" title="Wood / capacity"><svg class="ic" data-icon="ic-wood"></svg><%= Math.floor(rv.wood).toLocaleString() %></span>
+    <span class="res res-clay" title="Clay / capacity"><svg class="ic" data-icon="ic-clay"></svg><%= Math.floor(rv.clay).toLocaleString() %></span>
+    <span class="res res-iron" title="Iron / capacity"><svg class="ic" data-icon="ic-iron"></svg><%= Math.floor(rv.iron).toLocaleString() %></span>
+    <span class="res res-grain" title="Grain / granary capacity"><svg class="ic" data-icon="ic-grain"></svg><%= Math.floor(rv.grain).toLocaleString() %></span>
+    <span class="res res-pop" title="Population"><svg class="ic" data-icon="ic-pop"></svg><%= rv.population %></span>
+  </div>
+</div>
+<% } %>
+<% if (typeof error !== 'undefined' && error) { %>
+  <div class="flash flash-error"><%= error %></div>
+<% } %>
+<% if (typeof flash !== 'undefined' && flash) { %>
+  <div class="flash flash-<%= flash.type || 'info' %>"><%= flash.msg %></div>
+<% } %>

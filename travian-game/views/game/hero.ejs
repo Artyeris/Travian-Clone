@@ -1,0 +1,36 @@
+<%- include('../partials/header') %>
+<h2>Hero — <%= hero.name %></h2>
+<div class="cols">
+  <div class="col-main">
+    <div class="panel heropanel">
+      <div class="heroavatar">🦸</div>
+      <div>
+        <p><b>Level <%= hero.level %></b> · XP <%= fmt(hero.exp) %>/<%= fmt(nextExp) %></p>
+        <div class="xpbar"><div class="xpfill" style="width:<%= Math.min(100, Math.round(hero.exp / nextExp * 100)) %>%"></div></div>
+        <p>HP: <%= hero.attrs.hp %>/<%= hero.attrs.maxhp %></p>
+        <p>Location: village id <%= hero.village_id %></p>
+      </div>
+    </div>
+    <h3>Attributes</h3>
+    <table class="table striped">
+      <tr><th>Attribute</th><th>Value</th><th></th></tr>
+      <% [['str','Strength — +attack when hero fights'], ['int','Intelligence — faster skill learning'], ['agi','Agility — +defence & initiative']].forEach(([k,label]) => { %>
+      <tr>
+        <td><b><%= label.split('—')[0].trim() %></b><br><span class="muted small"><%= label.split('—')[1] %></span></td>
+        <td><%= hero.attrs[k] %></td>
+        <td><form method="post" action="/game/hero/<%= v.id %>/attr">
+          <input type="hidden" name="attr" value="<%= k %>">
+          <button class="btn btn-small btn-gold" type="submit" <%= hero.points > 0 ? '' : 'disabled' %>>+1</button>
+        </form></td>
+      </tr>
+      <% }) %>
+    </table>
+    <p><b>Free attribute points: <%= hero.points %></b> (earn one point per hero level; levels come from battles, trading and looting)</p>
+  </div>
+  <div class="col-side">
+    <div class="sidebox"><h3>About heroes</h3>
+      <p class="small">Your hero travels with armies (tick “bring hero” on the attack screen via coordinate link), can be reinforced into other villages and gains experience from combat and loot.</p>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>

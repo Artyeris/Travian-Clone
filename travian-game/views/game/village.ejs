@@ -1,0 +1,108 @@
+<%- include('../partials/header') %>
+<h2><%= v.name %> <span class="muted">(<%= v.x %>|<%= v.y %>)</span></h2>
+
+<div class="panel stats-panel">
+  <div class="stat"><span class="k">Production/h:</span>
+    <svg class="ic" data-icon="ic-wood"></svg><%= fmt(prod.wood) %> ·
+    <svg class="ic" data-icon="ic-clay"></svg><%= fmt(prod.clay) %> ·
+    <svg class="ic" data-icon="ic-iron"></svg><%= fmt(prod.iron) %> ·
+    <svg class="ic" data-icon="ic-grain"></svg><%= fmt(prod.grain) %>
+    <span class="muted">(grain consumption: -<%= cons.toFixed(1) %>/h)</span></div>
+  <div class="stat"><span class="k">Storage:</span>
+    <svg class="ic" data-icon="ic-wood"></svg><%= fmt(v.wood) %>/<%= fmt(cap) %> ·
+    <svg class="ic" data-icon="ic-clay"></svg><%= fmt(v.clay) %>/<%= fmt(cap) %> ·
+    <svg class="ic" data-icon="ic-iron"></svg><%= fmt(v.iron) %>/<%= fmt(cap) %></div>
+  <div class="stat"><span class="k">Granary:</span>
+    <svg class="ic" data-icon="ic-grain"></svg><%= fmt(v.grain) %>/<%= fmt(gcap) %></div>
+  <div class="stat"><span class="k">Housing:</span> <svg class="ic" data-icon="ic-pop"></svg><%= (v.population + troopPop) %>/<%= housing %>
+    (villagers <%= v.population %>, troops <%= troopPop %>)</div>
+</div>
+
+<div class="cols">
+  <div class="col-main">
+    <h3>Village of <%= v.name %></h3>
+    <% const bicon = k => {
+         const fields = ['woodcutter','claypit','ironmine','grainfield'];
+         if (fields.includes(k)) return 'b-field';
+         if (k === 'herbivore') return 'b-field';
+         if (k === 'marketplace') return 'b-marketplace';
+         return 'b-' + k; }; %>
+    <div class="building-grid">
+      <% buildings.forEach(b => { const def = defByName[b.key]; if (!def) return;
+         const maxed = b.level >= def.maxLevel;
+      %>
+      <div class="bcell <%= b.upgrading ? 'constructing' : '' %>" title="<%= def.name %> — level <%= b.level %>">
+        <span class="blvl"><%= b.level %></span>
+        <svg class="bicon" data-icon="<%= bicon(b.key) %>" viewBox="0 0 48 48"></svg>
+        <span class="bname"><%= def.name %></span>
+        <% if (b.upgrading) { %>
+          <div class="bprogress"><div data-start="<%= b.upgrade_start || (b.upgrade_finish - 60000) %>" data-end="<%= b.upgrade_finish %>" style="width:0%"></div></div>
+          <span class="small countdown" data-target="<%= b.upgrade_finish %>"></span>
+        <% } else if (maxed) { %>
+          <span class="tag tag-max small">MAX</span>
+        <% } else { %>
+          <form method="post" action="/game/village/<%= v.id %>/build/<%= b.key %>">
+            <button class="btn btn-small btn-gold" type="submit">⬆ lvl <%= b.level + 1 %></button>
+          </form>
+        <% } %>
+      </div>
+      <% }) %>
+    </div>
+
+    <h3>New construction</h3>
+    <% const fieldKeys = ['woodcutter','claypit','ironmine','grainfield','herbivore']; %>
+    <% if (!newCandidates.length) { %><p class="muted">All building types are present in this village.</p><% } else { %>
+    <table class="table striped">
+      <tr><th>Building</th><th>Cost</th><th>Time</th><th></th></tr>
+      <% newCandidates.forEach(def => {
+           const isField = fieldKeys.includes(def.key);
+           const blockedBySlots = isField && !canAddNewField;
+           const cost = V_getCost(def.key, 0);
+           const time = V_getBuildTime(def.key, 0);
+           const affordable = v.wood >= cost.wood && v.clay >= cost.clay && v.iron >= cost.iron;
+           let reqText = '';
+           if (def.requires) reqText = Object.entries(def.requires).map(([rk,rl])=>`Requires ${(defByName[rk]||{name:rk}).name} lvl ${rl}`).join(', ');
+      %>
+      <tr>
+        <td><svg class="ic" data-icon="<%= bicon(def.key) %>"></svg><b><%= def.name %></b><br><span class="muted small"><%= def.desc %></span>
+          <% if (reqText) { %><br><span class="warn small"><%= reqText %></span><% } %></td>
+        <td class="cost"><svg class="ic" data-icon="ic-wood"></svg><%= fmt(cost.wood) %> <svg class="ic" data-icon="ic-clay"></svg><%= fmt(cost.clay) %> <svg class="ic" data-icon="ic-iron"></svg><%= fmt(cost.iron) %></td>
+        <td><span class="dur" data-ms="<%= time %>"></span></td>
+        <td>
+          <% if (blockedBySlots) { %><span class="muted small">No free field slots</span>
+          <% } else { %>
+          <form method="post" action="/game/village/<%= v.id %>/newbuilding/<%= def.key %>">
+            <button class="btn btn-small <%= affordable && !reqText ? 'btn-gold' : 'btn-disabled' %>" type="submit"
+              <%= (affordable && !reqText) ? '' : 'disabled' %>>Build</button>
+          </form>
+          <% } %>
+        </td>
+      </tr>
+      <% }) %>
+    </table>
+    <% } %>
+  </div>
+
+  <div class="col-side">
+    <div class="sidebox"><h3>Actions</h3>
+      <ul>
+        <li><a href="/game/barracks/<%= v.id %>/barracks">Barracks (infantry)</a></li>
+        <li><a href="/game/barracks/<%= v.id %>/stable">Stable (cavalry)</a></li>
+        <li><a href="/game/barracks/<%= v.id %>/workshop">Workshop (siege)</a></li>
+        <li><a href="/game/research/<%= v.id %>">Academy</a></li>
+        <li><a href="/game/market/<%= v.id %>">Marketplace</a></li>
+        <li><a href="/game/attack/<%= v.id %>">Attack / Reinforce / Settle</a></li>
+        <li><a href="/game/hero/<%= v.id %>">Hero</a></li>
+        <li><a href="/game/map/<%= v.id %>">World map</a></li>
+      </ul>
+    </div>
+    <div class="sidebox"><h3>Garrison</h3>
+      <% const g = Object.entries(troopsHere).filter(([,n])=>n>0); %>
+      <% if (!g.length) { %><p class="muted">No troops in this village.</p><% } else { %>
+      <ul><% g.forEach(([k,n]) => { %><li><%= n %> × <%= k.replace('_',' ') %></li><% }) %></ul>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

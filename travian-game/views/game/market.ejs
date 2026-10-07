@@ -1,0 +1,42 @@
+<%- include('../partials/header') %>
+<h2>Marketplace — <%= v.name %></h2>
+<p class="muted">Traders in this village: <b><%= traders %></b>. Trade routes send caravans between two villages you (or allies) own.</p>
+<% if (sent) { %><div class="flash flash-success">Caravan dispatched!</div><% } %>
+
+<div class="cols">
+  <div class="col-main">
+    <div class="panel">
+      <h3>New trade route</h3>
+      <form method="post" action="/game/market/<%= v.id %>/route">
+        <div class="grid2">
+          <label>Give <select name="give_res"><option value="wood">Wood</option><option value="clay">Clay</option><option value="iron">Iron</option></select></label>
+          <label>Receive <select name="get_res"><option value="clay">Clay</option><option value="wood">Wood</option><option value="iron">Iron</option></select></label>
+          <label>Amount total <input type="number" name="amount" min="1" max="<%= Math.floor(Math.max(v.wood,v.clay,v.iron)) %>" value="500"></label>
+          <label>Ratio (give:get) <input type="number" name="ratio" step="0.1" min="0.1" value="1"></label>
+          <label>Traders used <input type="number" name="traders" min="1" max="<%= traders %>" value="1"></label>
+          <label>Target coords (<input type="number" name="x" min="0" max="399" value="" placeholder="x" style="width:56px">|<input type="number" name="y" min="0" max="399" placeholder="y" style="width:56px">)</label>
+        </div>
+        <button class="btn btn-gold" type="submit" <%= traders < 1 ? 'disabled' : '' %>>Send caravan</button>
+        <% if (traders < 1) { %><span class="warn small"> You need Traders — train them on the <a href="/game/barracks/<%= v.id %>/workshop">Workshop page</a>.</span><% } %>
+      </form>
+    </div>
+
+    <h3>Public offers board</h3>
+    <% if (!offers.length) { %><p class="muted">No offers yet.</p><% } else { %>
+    <table class="table striped">
+      <tr><th>Player</th><th>Gives</th><th>Wants</th><th>Ratio</th></tr>
+      <% offers.forEach(o => { %>
+      <tr><td><%= o.username %></td><td><%= fmt(o.give_amount) %> <%= o.give_res %></td>
+        <td><%= fmt(o.get_amount) %> <%= o.get_res %></td><td><%= o.ratio.toFixed(2) %></td></tr>
+      <% }) %>
+    </table>
+    <% } %>
+  </div>
+  <div class="col-side">
+    <div class="sidebox"><h3>Your stock</h3>
+      <p><svg class="ic" data-icon="ic-wood"></svg><%= fmt(v.wood) %> · <svg class="ic" data-icon="ic-clay"></svg><%= fmt(v.clay) %> · <svg class="ic" data-icon="ic-iron"></svg><%= fmt(v.iron) %></p>
+      <p class="small muted">Each trader carries 1,000 resources per trip.</p>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>

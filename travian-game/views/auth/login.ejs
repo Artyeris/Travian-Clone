@@ -1,0 +1,12 @@
+<%- include('../partials/header', { title: 'Login' }) %>
+<div class="formpanel">
+  <h2>Login</h2>
+  <% if (error) { %><div class="flash flash-error"><%= error %></div><% } %>
+  <form method="post" action="/login">
+    <label>Username <input type="text" name="username" required autofocus></label>
+    <label>Password <input type="password" name="password" required></label>
+    <button class="btn btn-gold" type="submit">Sign in</button>
+  </form>
+  <p class="form-alt">No account yet? <a href="/register">Register here</a>.</p>
+</div>
+<%- include('../partials/footer') %>

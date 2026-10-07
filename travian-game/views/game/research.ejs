@@ -1,0 +1,32 @@
+<%- include('../partials/header') %>
+<h2>Academy — <%= v.name %></h2>
+<% if (academyLvl < 1) { %>
+  <div class="flash flash-error">You need an <b>Academy</b> (requires Main Building lvl 10). Build it on the <a href="/game/village/<%= v.id %>">village screen</a>.</div>
+<% } else { %>
+<p class="muted">Academy level: <b><%= academyLvl %></b>. Research applies to your whole empire.</p>
+<% if (queue) { %>
+  <div class="panel">⏳ Currently researching <b><%= research[queue.key].name %></b> (level <%= queue.target_level %>) — finishes in <span class="countdown" data-target="<%= queue.finish_time %>"></span></div>
+<% } %>
+<table class="table striped">
+  <tr><th>Technology</th><th>Level</th><th>Cost (next)</th><th>Time</th><th></th></tr>
+  <% Object.values(research).forEach(r => { const lvl = owned[r.key] || 0; const c = cost(r.key); const ms = time(r.key);
+     const maxed = lvl >= r.maxLevel; const busy = !!queue;
+     const affordable = v.wood >= c.wood && v.clay >= c.clay && v.iron >= c.iron;
+  %>
+  <tr>
+    <td><b><%= r.name %></b><br><span class="muted small"><%= r.desc %></span></td>
+    <td><%= lvl %>/<%= r.maxLevel %></td>
+    <% if (maxed) { %><td colspan="2" class="muted">Fully researched.</td><td></td>
+    <% } else { %>
+    <td class="cost"><svg class="ic" data-icon="ic-wood"></svg><%= fmt(c.wood) %> <svg class="ic" data-icon="ic-clay"></svg><%= fmt(c.clay) %> <svg class="ic" data-icon="ic-iron"></svg><%= fmt(c.iron) %></td>
+    <td><span class="dur" data-ms="<%= ms %>"></span></td>
+    <td><form method="post" action="/game/research/<%= v.id %>/start">
+      <input type="hidden" name="key" value="<%= r.key %>">
+      <button class="btn btn-small <%= (!busy && affordable) ? 'btn-gold' : 'btn-disabled' %>" type="submit" <%= (!busy && affordable) ? '' : 'disabled' %>>Research</button>
+    </form></td>
+    <% } %>
+  </tr>
+  <% }) %>
+</table>
+<% } %>
+<%- include('../partials/footer') %>

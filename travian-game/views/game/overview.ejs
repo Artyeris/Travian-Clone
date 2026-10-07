@@ -1,0 +1,80 @@
+<%- include('../partials/header') %>
+<div class="cols">
+  <div class="col-main">
+    <h2>Village report</h2>
+    <% if (!villages.length) { %>
+      <p>Welcome, <%= user.username %>! Your capital is being prepared — head to the <a href="/game">Village screen</a>.</p>
+    <% } else { %>
+      <table class="table striped">
+        <tr><th>Village</th><th>Coordinates</th><th>Population</th><th>Wood</th><th>Clay</th><th>Iron</th><th>Grain</th><th></th></tr>
+        <% villages.forEach(v => { %>
+        <tr>
+          <td><b><%= v.name %></b><% if (v.is_capital) { %> <span class="tag">Capital</span><% } %></td>
+          <td>(<%= v.x %>|<%= v.y %>)</td>
+          <td><%= v.population %></td>
+          <td><%= fmt(v.wood) %></td><td><%= fmt(v.clay) %></td><td><%= fmt(v.iron) %></td><td><%= fmt(v.grain) %></td>
+          <td><a class="btn btn-small" href="/game/village/<%= v.id %>">Enter</a></td>
+        </tr>
+        <% }) %>
+      </table>
+      <p>Total troops under your command: <b><%= fmt(totalTroops) %></b></p>
+    <% } %>
+
+    <h2>Movements in flight</h2>
+    <% if (!movements.length) { %><p class="muted">No armies or caravans are on the road.</p><% } else { %>
+      <table class="table striped">
+        <tr><th>Type</th><th>From</th><th>To</th><th>Arrives</th></tr>
+        <% movements.forEach(m => { %>
+        <tr>
+          <td><span class="tag tag-<%= m.type %>"><%= m.type %></span></td>
+          <td><%= m.fv_name %> (<%= m.fx %>|<%= m.fy %>)</td>
+          <td><%= m.tv_name %> (<%= m.tx %>|<%= m.ty %>)</td>
+          <td><span class="countdown" data-target="<%= m.arrive_time %>"></span></td>
+        </tr>
+        <% }) %>
+      </table>
+    <% } %>
+
+    <h2>Latest reports</h2>
+    <% if (!reports.length) { %><p class="muted">No reports yet. Go raid somebody!</p><% } else { %>
+      <div class="reports">
+      <% reports.forEach(r => { const b = r.body; %>
+        <details class="report report-<%= r.type %>" <%= r === reports[0] ? 'open' : '' %>>
+          <summary><b><%= r.title %></b> <span class="muted"><%= new Date(r.time).toLocaleString() %></span></summary>
+          <div class="report-body">
+            <% if (r.type === 'attack') { %>
+              <p>Attack from (<%= b.from ? b.from.x : '?' %>|<%= b.from ? b.from.y : '?' %>) on (<%= b.to ? b.to.x : '?' %>|<%= b.to ? b.to.y : '?' %>).</p>
+              <% if (b.loot) { %><p>Loot: <%= Object.entries(b.loot).filter(([,n])=>n>0).map(([k,n])=>fmt(n)+' '+k).join(', ') || 'nothing' %></p><% } %>
+              <% if (b.lost) { %><p>Casualties: <%= Object.entries(b.lost).filter(([,n])=>n>0).map(([k,n])=>n+'x '+k).join(', ') || 'none' %></p><% } %>
+            <% } else if (r.type === 'native') { %>
+              <p>A native brought you <%= fmt(b.amount || 0) %> <%= b.res %>.</p>
+            <% } else if (r.type === 'trade') { %>
+              <p><%= Object.entries(b).map(([k,n])=>fmt(n)+' '+k).join(', ') %></p>
+            <% } else { %>
+              <p class="muted"><%= JSON.stringify(b) %></p>
+            <% } %>
+          </div>
+        </details>
+      <% }) %>
+      </div>
+    <% } %>
+  </div>
+  <div class="col-side">
+    <div class="sidebox"><h3>World</h3>
+      <p><%= villagesTotal %> villages on the map.</p>
+      <p><a href="/game/statistics">View statistics →</a></p>
+    </div>
+    <div class="sidebox"><h3>Quick links</h3>
+      <% if (villages.length) { const v0 = villages[0]; %>
+      <ul>
+        <li><a href="/game/village/<%= v0.id %>">Build in <%= v0.name %></a></li>
+        <li><a href="/game/barracks/<%= v0.id %>/barracks">Train troops</a></li>
+        <li><a href="/game/map/<%= v0.id %>">World map</a></li>
+        <li><a href="/game/market/<%= v0.id %>">Marketplace</a></li>
+        <li><a href="/game/messages">Messages</a></li>
+      </ul>
+      <% } %>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>

@@ -1,0 +1,56 @@
+<%- include('../partials/header') %>
+<h2>Send army from <%= v.name %> (<%= v.x %>|<%= v.y %>)</h2>
+<% if (sent) { %><div class="flash flash-success">Your army is on the march! Check the overview for arrival times.</div><% } %>
+
+<div class="cols">
+  <div class="col-main">
+    <form method="post" action="/game/attack/<%= v.id %>/send" id="attackform">
+      <div class="panel">
+        <label>Target coordinates:
+          (<input type="number" name="x" min="0" max="<%= typeof mapW !== 'undefined' ? mapW : 399 %>" value="<%= coord ? coord.x : '' %>" required style="width:70px">|<input type="number" name="y" min="0" max="399" value="<%= coord ? coord.y : '' %>" required style="width:70px">)
+        </label>
+        <label>Action:
+          <select name="type">
+            <option value="attack">⚔️ Attack</option>
+            <option value="reinforce">🛡 Reinforce (own/allied village)</option>
+            <option value="settle">🏺 Settle new province (needs Settler + Embassy + Monument)</option>
+          </select>
+        </label>
+        <% if (target) { %>
+          <p class="targetinfo">Target: <b><%= target.name %></b> — owner:
+            <%= target.user_id ? 'player' : 'Barbarians' %> · pop <%= target.population %> · loyalty <%= target.loyalty %></p>
+        <% } else if (coord) { %>
+          <p class="warn">No village found at these coordinates.</p>
+        <% } %>
+      </div>
+
+      <table class="table striped">
+        <tr><th>Unit</th><th>In garrison</th><th>Send</th></tr>
+        <% Object.entries(units).forEach(([k, u]) => { const have = troops[k] || 0; %>
+        <tr class="<%= have === 0 ? 'dim' : '' %>">
+          <td><b><%= u.name %></b> <span class="muted small"><%= u.type %>, speed <%= u.speed %>, carry <%= u.carry %></span></td>
+          <td><%= have %></td>
+          <td><input type="number" name="unit_<%= k %>" min="0" max="<%= have %>" value="0" style="width:80px"></td>
+        </tr>
+        <% }) %>
+      </table>
+      <button class="btn btn-gold" type="submit">Send!</button>
+      <a class="btn" href="/game/map/<%= v.id %>">Pick target on map</a>
+    </form>
+
+    <h3>Airborne movements from this village</h3>
+    <% if (!moving.length) { %><p class="muted">Nothing in flight.</p><% } else { %>
+    <table class="table striped">
+      <tr><th>Type</th><th>Arrives</th></tr>
+      <% moving.forEach(m => { %><tr><td><span class="tag tag-<%= m.type %>"><%= m.type %></span></td>
+        <td><span class="countdown" data-target="<%= m.arrive_time %>"></span></td></tr><% }) %>
+    </table>
+    <% } %>
+  </div>
+  <div class="col-side">
+    <div class="sidebox"><h3>Tip</h3>
+      <p class="small">Open the <a href="/game/map/<%= v.id %>">world map</a>, click any village and choose “Attack” to pre-fill coordinates. Fastest unit defines travel time of the whole army; slow siege engines drag it down.</p>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>
