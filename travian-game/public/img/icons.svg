@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="ic-wood" viewBox="0 0 24 24"><path fill="#5d8a3c" d="M12 2 6 9h3l-4 6h5l-4 5h12l-4-5h5l-4-6h3z"/><rect x="11" y="19" width="2" height="3" fill="#7a5230"/></symbol>
+  <symbol id="ic-clay" viewBox="0 0 24 24"><path fill="#b5651d" d="M5 8h14l2 8H3z"/><ellipse cx="12" cy="8" rx="7" ry="2.5" fill="#d98243"/></symbol>
+  <symbol id="ic-iron" viewBox="0 0 24 24"><path fill="#8f9aa8" d="M4 14h16l-2 6H6z"/><path fill="#c3ccd6" d="M7 8h10l3 6H4z"/><path fill="#e2e8ef" d="M9 4h6l2 4H7z"/></symbol>
+  <symbol id="ic-grain" viewBox="0 0 24 24"><path fill="#d4a017" d="M12 2c2 3 2 5 0 8-2-3-2-5 0-8zM12 10c2 3 2 5 0 8-2-3-2-5 0-8zM6 6c2 3 2 5 0 8-2-3-2-5 0-8zM18 6c2 3 2 5 0 8-2-3-2-5 0-8z"/><rect x="11" y="16" width="2" height="6" fill="#7a5230"/></symbol>
+  <symbol id="ic-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#ecc35a" stroke="#a87c0a"/><text x="12" y="16" font-size="10" text-anchor="middle" fill="#7a5230" font-family="serif">S</text></symbol>
+  <symbol id="ic-pop" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4" fill="#e0b080"/><path d="M4 21c0-5 4-8 8-8s8 3 8 8z" fill="#8a6a4a"/></symbol>
+  <symbol id="ic-sword" viewBox="0 0 24 24"><path d="M14 3h7v7l-9 9-3-3z" fill="#9aa7b5"/><path d="M8 16l-4 4M6 14l4 4" stroke="#7a5230" stroke-width="2"/></symbol>
+  <symbol id="ic-hammer" viewBox="0 0 24 24"><rect x="4" y="5" width="12" height="6" rx="1" fill="#8f9aa8"/><rect x="9" y="10" width="3" height="11" fill="#7a5230"/></symbol>
+  <symbol id="ic-scroll" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2" fill="#f3ead6" stroke="#a87c0a"/><path d="M8 8h8M8 12h8M8 16h5" stroke="#7a5230" stroke-width="1.5"/></symbol>
+  <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 2 4 5v7c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V5z" fill="#3f6fb5" stroke="#243a5c"/><path d="M12 6v11" stroke="#fff" stroke-width="1.5"/></symbol>
+  <symbol id="ic-horse" viewBox="0 0 24 24"><path d="M6 20c0-6 3-8 6-9l1-4 4 2 2-3 1 1-1 4c1 4-1 9-6 9z" fill="#7a5230"/></symbol>
+  <symbol id="ic-cart" viewBox="0 0 24 24"><rect x="4" y="8" width="14" height="6" fill="#8a6a4a"/><circle cx="7" cy="17" r="3" fill="#5c4630"/><circle cx="15" cy="17" r="3" fill="#5c4630"/></symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24"><path d="m12 2 2.7 6.6L21 9.3l-5 4.6 1.5 6.8L12 17.2 6.5 20.7 8 13.9 3 9.3l6.3-.7z" fill="#ecc35a" stroke="#a87c0a"/></symbol>
+  <symbol id="ic-map" viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z" fill="#cfe3b8" stroke="#5d8a3c"/><path d="M9 4v14M15 6v14" stroke="#5d8a3c"/></symbol>
+  <symbol id="ic-market" viewBox="0 0 24 24"><path d="M4 9h16l-1 11H5z" fill="#b5651d"/><path d="M3 5h18l1 4H2z" fill="#d98243"/></symbol>
+  <symbol id="ic-hero" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="#e0b080" stroke="#7a5230"/><path d="M5 21c0-5 3-8 7-8s7 3 7 8z" fill="#a02020"/><path d="M18 4l2 6-3-2z" fill="#9aa7b5"/></symbol>
+  <symbol id="ic-alliance" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3.5" fill="#3f6fb5"/><circle cx="16" cy="8" r="3.5" fill="#d4a017"/><path d="M2 20c0-4 3-6 6-6s6 2 6 6z" fill="#3f6fb5" opacity=".8"/><path d="M10 20c0-4 3-6 6-6s6 2 6 6z" fill="#d4a017" opacity=".8"/></symbol>
+  <symbol id="ic-message" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="13" rx="2" fill="#f3ead6" stroke="#a87c0a"/><path d="m4 7 8 6 8-6" fill="none" stroke="#7a5230" stroke-width="1.6"/></symbol>
+  <symbol id="ic-stats" viewBox="0 0 24 24"><rect x="4" y="12" width="4" height="9" fill="#3f6fb5"/><rect x="10" y="7" width="4" height="14" fill="#d4a017"/><rect x="16" y="3" width="4" height="18" fill="#a02020"/></symbol>
+  <!-- buildings -->
+  <symbol id="b-main" viewBox="0 0 48 48"><path d="M8 24 24 10l16 14v18H8z" fill="#d9c9a3" stroke="#8a6a4a"/><rect x="20" y="28" width="8" height="14" fill="#7a5230"/><path d="M6 24h36" stroke="#a02020" stroke-width="3"/></symbol>
+  <symbol id="b-warehouse" viewBox="0 0 48 48"><path d="M8 20h32v20H8z" fill="#b5651d" stroke="#7a4010"/><path d="M8 20 24 8l16 12z" fill="#8f9aa8"/><rect x="20" y="28" width="8" height="12" fill="#5c4630"/></symbol>
+  <symbol id="b-granary" viewBox="0 0 48 48"><path d="M12 18h24v22H12z" fill="#ecc35a" stroke="#a87c0a"/><path d="M12 18q12-16 24 0z" fill="#d4a017"/><rect x="21" y="28" width="6" height="12" fill="#7a5230"/></symbol>
+  <symbol id="b-blacksmith" viewBox="0 0 48 48"><rect x="10" y="24" width="28" height="16" fill="#6b6b6b"/><path d="M16 24V14h6v10" fill="#8f9aa8"/><rect x="24" y="8" width="6" height="16" fill="#8f9aa8"/><path d="M24 8h6l-3-4z" fill="#a02020"/></symbol>
+  <symbol id="b-marketplace" viewBox="0 0 48 48"><path d="M6 18h36l-4 8H10z" fill="#d98243"/><rect x="10" y="26" width="28" height="14" fill="#b5651d"/><path d="M14 18V10h20v8" fill="#ecc35a"/></symbol>
+  <symbol id="b-barracks" viewBox="0 0 48 48"><path d="M8 22h32v18H8z" fill="#8a6a4a" stroke="#5c4630"/><path d="M8 22 24 12l16 10z" fill="#a02020"/><rect x="20" y="28" width="8" height="12" fill="#3a2c18"/><path d="M24 4v8M20 8h8" stroke="#9aa7b5" stroke-width="2"/></symbol>
+  <symbol id="b-stable" viewBox="0 0 48 48"><path d="M8 24h32v16H8z" fill="#8a6a4a"/><path d="M8 24q4-14 16-14t16 14z" fill="#5d8a3c"/><path d="M18 40c0-8 2-10 6-10s6 2 6 10z" fill="#3a2c18"/></symbol>
+  <symbol id="b-workshop" viewBox="0 0 48 48"><rect x="10" y="22" width="28" height="18" fill="#b5651d"/><path d="M10 22 24 12l14 10z" fill="#8f9aa8"/><path d="M20 34l8-8M28 34l-8-8" stroke="#ecc35a" stroke-width="3"/></symbol>
+  <symbol id="b-embassy" viewBox="0 0 48 48"><rect x="12" y="16" width="24" height="24" fill="#d9c9a3" stroke="#8a6a4a"/><path d="M12 16 24 8l12 8z" fill="#3f6fb5"/><rect x="21" y="28" width="6" height="12" fill="#7a5230"/></symbol>
+  <symbol id="b-treasury" viewBox="0 0 48 48"><path d="M10 20h28v20H10z" fill="#ecc35a" stroke="#a87c0a"/><path d="M10 20q14-12 28 0z" fill="#d4a017"/><circle cx="24" cy="30" r="6" fill="#a87c0a"/></symbol>
+  <symbol id="b-monument" viewBox="0 0 48 48"><path d="M18 40V16l6-8 6 8v24z" fill="#d9c9a3" stroke="#8a6a4a"/><rect x="12" y="40" width="24" height="4" fill="#8a6a4a"/><path d="M24 8l4 6h-8z" fill="#a02020"/></symbol>
+  <symbol id="b-wall" viewBox="0 0 48 48"><path d="M6 20h4v4h6v-4h4v4h6v-4h4v4h6v-4h4v20H6z" fill="#9aa7b5" stroke="#6b6b6b"/></symbol>
+  <symbol id="b-residence" viewBox="0 0 48 48"><path d="M10 24h28v16H10z" fill="#d9c9a3" stroke="#8a6a4a"/><path d="M8 24 24 12l16 12z" fill="#b5651d"/><rect x="20" y="30" width="8" height="10" fill="#7a5230"/></symbol>
+  <symbol id="b-council" viewBox="0 0 48 48"><rect x="10" y="20" width="28" height="20" fill="#f3ead6" stroke="#a87c0a"/><path d="M8 20 24 8l16 12z" fill="#3f6fb5"/><rect x="16" y="26" width="4" height="10" fill="#8a6a4a"/><rect x="28" y="26" width="4" height="10" fill="#8a6a4a"/></symbol>
+  <symbol id="b-academy" viewBox="0 0 48 48"><rect x="10" y="22" width="28" height="18" fill="#d9c9a3" stroke="#8a6a4a"/><path d="M10 22q14-16 28 0z" fill="#6a4fa3"/><rect x="21" y="30" width="6" height="10" fill="#3a2c18"/></symbol>
+  <symbol id="b-theater" viewBox="0 0 48 48"><path d="M8 36q16-20 32 0z" fill="#d98243"/><path d="M8 36h32v6H8z" fill="#8a6a4a"/><path d="M16 30h4v8h-4zM28 30h4v8h-4z" fill="#f3ead6"/></symbol>
+  <symbol id="b-field" viewBox="0 0 48 48"><rect x="6" y="26" width="36" height="16" fill="#c8a24a"/><path d="M10 26v-8M18 26v-10M26 26v-8M34 26v-10" stroke="#5d8a3c" stroke-width="3"/></symbol>
+  <symbol id="b-unknown" viewBox="0 0 48 48"><rect x="10" y="20" width="28" height="20" fill="#d9c9a3" stroke="#8a6a4a"/><path d="M10 20 24 10l14 10z" fill="#8f9aa8"/></symbol>
+</svg>

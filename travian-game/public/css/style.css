@@ -116,6 +116,26 @@ fieldset.tribes { border: 1px solid var(--border); border-radius: 6px; margin: 1
 .formpanel { max-width: 480px; margin: 0 auto; }
 .form-alt { margin-top: 14px; font-size: 14px; }
 
+/* Icons (inline SVG sprites) */
+.ic { display: inline-block; width: 18px; height: 18px; vertical-align: -4px; margin-right: 3px; }
+.ic-lg { width: 30px; height: 30px; vertical-align: -8px; }
+
+/* Building level badge */
+.lvl { text-align: center; }
+.lvl .lvl-badge { display: inline-block; min-width: 26px; background: linear-gradient(#ecc35a, var(--gold)); border: 1px solid var(--gold-dark); border-radius: 50%; padding: 2px 7px; font-weight: bold; color: #241a0c; }
+
+/* Village building grid */
+.building-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin: 10px 0; }
+.bcell { position: relative; background: linear-gradient(#fffaf0, #efe3c4); border: 1px solid var(--border); border-radius: 8px; text-align: center; padding: 8px 4px 6px; text-decoration: none; color: var(--ink); }
+.bcell:hover { border-color: var(--gold); box-shadow: 0 1px 6px rgba(0,0,0,.18); }
+.bcell .bicon { display: block; margin: 0 auto 4px; width: 44px; height: 44px; }
+.bcell .bname { font-size: 11px; line-height: 1.15; display: block; min-height: 26px; }
+.bcell .blvl { position: absolute; top: -6px; left: -4px; background: var(--gold); border: 1px solid var(--gold-dark); color: #241a0c; font-weight: bold; font-size: 12px; border-radius: 50%; width: 22px; height: 22px; line-height: 20px; }
+.bcell.constructing { opacity: .8; outline: 2px dashed var(--green); }
+.bcell.done { outline: 2px solid var(--green); }
+.bprogress { height: 5px; background: #ddd0ae; border-radius: 3px; overflow: hidden; margin-top: 4px; }
+.bprogress > div { height: 100%; background: var(--green); }
+
 /* Footer */
 #footer { text-align: center; color: #4a3c22; font-size: 12px; padding: 14px; }
 .countdown { font-variant-numeric: tabular-nums; font-weight: bold; }

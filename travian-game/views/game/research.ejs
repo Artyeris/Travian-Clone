@@ -18,7 +18,7 @@
     <td><%= lvl %>/<%= r.maxLevel %></td>
     <% if (maxed) { %><td colspan="2" class="muted">Fully researched.</td><td></td>
     <% } else { %>
-    <td class="cost">🪵<%= fmt(c.wood) %> 🧱<%= fmt(c.clay) %> ⚙️<%= fmt(c.iron) %></td>
+    <td class="cost"><svg class="ic" data-icon="ic-wood"></svg><%= fmt(c.wood) %> <svg class="ic" data-icon="ic-clay"></svg><%= fmt(c.clay) %> <svg class="ic" data-icon="ic-iron"></svg><%= fmt(c.iron) %></td>
     <td><span class="dur" data-ms="<%= ms %>"></span></td>
     <td><form method="post" action="/game/research/<%= v.id %>/start">
       <input type="hidden" name="key" value="<%= r.key %>">

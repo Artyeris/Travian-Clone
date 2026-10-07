@@ -16,7 +16,7 @@
       <tr class="<%= locked ? 'locked' : '' %>">
         <td><b><%= u.name %></b><br><span class="muted small"><%= u.desc %></span>
           <% if (locked) { %><br><span class="warn small">🔒 Requires <%= reqText %></span><% } %></td>
-        <td class="cost">🪵<%= u.cost.wood %> 🧱<%= u.cost.clay %> ⚙️<%= u.cost.iron %></td>
+        <td class="cost"><svg class="ic" data-icon="ic-wood"></svg><%= u.cost.wood %> <svg class="ic" data-icon="ic-clay"></svg><%= u.cost.clay %> <svg class="ic" data-icon="ic-iron"></svg><%= u.cost.iron %></td>
         <td><span class="dur" data-ms="<%= t %>"></span>/unit</td>
         <td><%= u.attack %> / <%= u.defence %></td>
         <td><%= u.speed %></td>

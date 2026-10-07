@@ -51,11 +51,11 @@
       <span class="village-name"><%= currentVillages[0].name %> (<%= currentVillages[0].x %>|<%= currentVillages[0].y %>)</span>
     <% } %>
     <% const rv = (typeof v !== 'undefined' && v) ? v : currentVillages[0]; %>
-    <span class="res res-wood" title="Wood / capacity">&#127794; <%= Math.floor(rv.wood).toLocaleString() %></span>
-    <span class="res res-clay" title="Clay / capacity">&#129058; <%= Math.floor(rv.clay).toLocaleString() %></span>
-    <span class="res res-iron" title="Iron / capacity">&#9935;&#65038; <%= Math.floor(rv.iron).toLocaleString() %></span>
-    <span class="res res-grain" title="Grain / granary capacity">&#127806; <%= Math.floor(rv.grain).toLocaleString() %></span>
-    <span class="res res-pop" title="Population">&#128101; <%= rv.population %></span>
+    <span class="res res-wood" title="Wood / capacity"><svg class="ic" data-icon="ic-wood"></svg><%= Math.floor(rv.wood).toLocaleString() %></span>
+    <span class="res res-clay" title="Clay / capacity"><svg class="ic" data-icon="ic-clay"></svg><%= Math.floor(rv.clay).toLocaleString() %></span>
+    <span class="res res-iron" title="Iron / capacity"><svg class="ic" data-icon="ic-iron"></svg><%= Math.floor(rv.iron).toLocaleString() %></span>
+    <span class="res res-grain" title="Grain / granary capacity"><svg class="ic" data-icon="ic-grain"></svg><%= Math.floor(rv.grain).toLocaleString() %></span>
+    <span class="res res-pop" title="Population"><svg class="ic" data-icon="ic-pop"></svg><%= rv.population %></span>
   </div>
 </div>
 <% } %>
